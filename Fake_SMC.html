@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>生成文件示例</title>
+</head>
+<body>
+    <h1>生成文件示例</h1>
+
+    <form id="fileGeneratorForm">
+        <label for="fileName">文件名：</label>
+        <input type="text" id="fileName" name="fileName" required><br><br>
+
+        <label for="fileContent">文件內容：</label>
+        <textarea id="fileContent" name="fileContent" required></textarea><br><br>
+
+        <!-- 下拉式選單 -->
+        <label for="fileType">System Command Type：</label>
+        <select id="fileType" name="fileType">
+            <option value="text/plain">Reser BIOS to Factory Default Settings</option>
+            <option value="text/plain">Allow BIOS version RollBack</option>
+            <option value="text/plain">Allow access to BIOS setup (F10) as administrator</option>
+            <option value="text/plain">Boot system without preboot authentication</option>
+            <option value="text/plain">Setup SMC key usage rules</option>
+        </select><br><br>
+        <!-- 下拉式選單 -->
+
+        <button type="submit">生成文件</button>
+    </form>
+
+    <div id="downloadLink" style="display: none;">
+        <h3>文件已生成：</h3>
+        <a id="downloadButton" download="generated-file.txt">下載文件</a>
+    </div>
+
+    <script>
+        document.getElementById('fileGeneratorForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const fileName = document.getElementById('fileName').value;
+            const fileContent = document.getElementById('fileContent').value;
+            const fileType = document.getElementById('fileType').value; // 獲取選擇的文件類型
+
+            // Create a Blob with the file content and selected type
+            const blob = new Blob([fileContent], { type: fileType });
+
+            // Create a download link
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = URL.createObjectURL(blob);
+            a.download = fileName;
+
+            // Append the link to the DOM
+            document.getElementById('downloadLink').style.display = 'block';
+            document.getElementById('downloadButton').appendChild(a);
+
+            // Trigger a click event to start the download
+            a.click();
+        });
+    </script>
+</body>
+</html>
